@@ -1,18 +1,10 @@
 from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-import mysql.connector
+from db import get_connection  # db.py मधून import
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
-
-def get_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="a7823",
-        database="simpledb"
-    )
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):

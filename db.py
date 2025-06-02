@@ -1,9 +1,17 @@
-import mysql.connector
+import pymysql
+from fastapi import HTTPException
 
 def get_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",         # change to your MySQL user
-        password="a7823", # change to your MySQL password
-        database="simpledb"  # make sure this database exists
-    )
+    try:
+        conn = pymysql.connect(
+            host='localhost',
+            user='root',
+            password='a7823',
+            database='simpledb',
+            cursorclass=pymysql.cursors.DictCursor,  # optional: rows dict स्वरूपात येतील
+            charset='utf8mb4'
+        )
+        return conn
+    except Exception as e:
+        print(f"Error connecting to MySQL: {e}")
+        raise HTTPException(status_code=500, detail="Database connection error")
